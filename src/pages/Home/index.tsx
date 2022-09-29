@@ -1,3 +1,12 @@
+import { Coffees } from '../../components/Coffees'
+import { MainHome } from '../../components/MainHome'
+import { HomeContainer } from './style'
+
 export const Home = () => {
-  return <h1> Home is the initial page </h1>
+  return (
+    <HomeContainer>
+      <MainHome />
+      <Coffees />
+    </HomeContainer>
+  )
 }
