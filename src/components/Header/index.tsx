@@ -1,5 +1,5 @@
-import { MapPin } from 'phosphor-react'
-import { HeaderContainer, Locale } from './style'
+import { MapPin, ShoppingCart } from 'phosphor-react'
+import { Cart, HeaderContainer, Locale } from './style'
 
 export const Header = () => {
   return (
@@ -12,7 +12,9 @@ export const Header = () => {
         <Locale>
           <MapPin className="map" size={22} /> <span>Porto Alegre, RS </span>
         </Locale>
-        <div></div>
+        <Cart>
+          <ShoppingCart className={'cart'} size={22} />
+        </Cart>
       </div>
     </HeaderContainer>
   )
