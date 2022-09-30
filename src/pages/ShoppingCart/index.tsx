@@ -20,6 +20,7 @@ import {
 } from './style'
 
 import EspressoTraditional from '../../assets/traditionalEspresso.svg'
+import { NavLink } from 'react-router-dom'
 
 export const ShoppingCart = () => {
   return (
@@ -117,7 +118,9 @@ export const ShoppingCart = () => {
                 <p> Total </p> <p>R$ 33,20 </p>
               </div>
             </div>
-            <button> Confirmar pedido </button>
+            <NavLink to="/confirmed">
+              <button> Confirmar pedido </button>
+            </NavLink>
           </ChosenCoffees>
         </BackgroundCoffeeSelected>
       </div>
