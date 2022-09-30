@@ -3,16 +3,23 @@ import {
   CreditCard,
   CurrencyDollar,
   MapPinLine,
+  Minus,
   Money,
+  Plus,
+  Trash,
 } from 'phosphor-react'
 import {
   Background,
+  BackgroundCoffeeSelected,
   CartContainer,
   ChosenCoffees,
+  Coffee,
   FromContainer,
   Payment,
   Requirements,
 } from './style'
+
+import EspressoTraditional from '../../assets/traditionalEspresso.svg'
 
 export const ShoppingCart = () => {
   return (
@@ -80,9 +87,39 @@ export const ShoppingCart = () => {
 
       <div>
         <h3>Cafés selecionados</h3>
-        <Background>
-          <ChosenCoffees></ChosenCoffees>
-        </Background>
+        <BackgroundCoffeeSelected>
+          <ChosenCoffees>
+            <Coffee>
+              <img src={EspressoTraditional} alt="" />
+              <div>
+                <span>Expresso Tradicional</span>
+                <div>
+                  <div>
+                    <Minus size={14} className="plus-minus" weight="fill" />
+                    <span>1</span>
+                    <Plus size={14} className="plus-minus" weight="fill" />
+                  </div>
+                  <div>
+                    <Trash className="trash" size={16} /> <span>Remover</span>
+                  </div>
+                </div>
+              </div>
+              <p>R$ 9,90</p>
+            </Coffee>
+            <div>
+              <div>
+                <span>Total de itens</span> <span>R$ 29,70</span>
+              </div>
+              <div>
+                <span>Entrega</span> <span>R$ 3,50</span>
+              </div>
+              <div>
+                <p> Total </p> <p>R$ 33,20 </p>
+              </div>
+            </div>
+            <button> Confirmar pedido </button>
+          </ChosenCoffees>
+        </BackgroundCoffeeSelected>
       </div>
     </CartContainer>
   )
