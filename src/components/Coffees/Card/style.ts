@@ -92,6 +92,10 @@ export const AddCoffee = styled.div`
     .plus-minus {
       color: ${(props) => props.theme.purple};
       cursor: pointer;
+      transition: all ease 0.2s;
+      &:hover {
+        color: ${(props) => props.theme['purple-dark']};
+      }
     }
   }
 
@@ -101,5 +105,9 @@ export const AddCoffee = styled.div`
     color: ${(props) => props.theme.white};
     border-radius: 0.6rem;
     cursor: pointer;
+    transition: all ease 0.2s;
+    &:hover {
+      background: ${(props) => props.theme.purple};
+    }
   }
 `
