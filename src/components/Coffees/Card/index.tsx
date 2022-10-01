@@ -2,7 +2,8 @@ import { AddCoffee, CardContainer } from './style'
 import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
 import { ICoffee } from '../../../interfaces/tipeCoffee'
 import traditionalEspresso from '../../../assets/traditionalEspresso.svg'
-import { useState } from 'react'
+import { useContext } from 'react'
+import { CoffeeContext } from '../../../contexts/CoffesContext'
 // import React, { useState } from 'react'
 
 interface ICardProps {
@@ -10,12 +11,23 @@ interface ICardProps {
 }
 
 export const Card = ({ coffee }: ICardProps) => {
-  const [putCoffeeInTheCart, setPutCoffeeInTheCart] = useState<ICoffee[]>([])
+  const { addCoffeeInTheCart } = useContext(CoffeeContext)
+  // const [amountOfCoffee, setAmountOfCoffee] = useState(0)
 
-  function addCoffeeInTheCart(ttt: ICoffee) {
-    setPutCoffeeInTheCart((state) => [...state, ttt])
+  function chooseTheAmountOfCoffee(plusOrMinus: string) {
+    if (plusOrMinus === 'plus') {
+      coffee.amount = coffee.amount + 1
+    } else {
+      if (coffee.amount > 1) {
+        coffee.amount = coffee.amount - 1
+      }
+    }
   }
-  console.log(putCoffeeInTheCart)
+
+  function chooseCoffee(coffeeSelected: ICoffee) {
+    console.log(coffeeSelected.id)
+    addCoffeeInTheCart(coffeeSelected)
+  }
 
   return (
     <CardContainer>
@@ -32,11 +44,20 @@ export const Card = ({ coffee }: ICardProps) => {
             <p className="price">{coffee.price}</p>
           </div>
           <div>
-            <Minus size={14} className="plus-minus" weight="duotone" />
+            <Minus
+              size={14}
+              onClick={() => chooseTheAmountOfCoffee('Minus')}
+              className="plus-minus"
+              weight="duotone"
+            />
             <span>1</span>
             <Plus size={14} className="plus-minus" weight="duotone" />
           </div>
-          <div onClick={() => addCoffeeInTheCart(coffee)}>
+          {/* { chosenCoffees.id ? } */}
+          <div
+            onClick={() => chooseCoffee(coffee)}
+            onMouseLeave={() => console.log('i already get there')}
+          >
             <ShoppingCartSimple
               className="shoppingCartSimple"
               size={16}

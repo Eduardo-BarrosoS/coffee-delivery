@@ -6,6 +6,7 @@ export const coffee = [
     price: 5.9,
     imageURL: '../../../assets/traditionalEspresso.svg',
     inventory: 400,
+    amount: 1,
     type: {
       traditional: true,
       withMilk: false,
@@ -22,6 +23,7 @@ export const coffee = [
     price: 7.5,
     imageURL: '../../../assets/cuban.svg',
     inventory: 1,
+    amount: 1,
     type: {
       traditional: false,
       withMilk: false,
@@ -37,6 +39,7 @@ export const coffee = [
     price: 8.5,
     imageURL: '../../../assets/cuban.svg',
     inventory: 1,
+    amount: 1,
     type: {
       traditional: true,
       withMilk: true,

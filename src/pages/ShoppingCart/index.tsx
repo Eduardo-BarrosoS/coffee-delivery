@@ -21,8 +21,14 @@ import {
 
 import EspressoTraditional from '../../assets/traditionalEspresso.svg'
 import { NavLink } from 'react-router-dom'
+import { CoffeeContext } from '../../contexts/CoffesContext'
+import { useContext } from 'react'
 
 export const ShoppingCart = () => {
+  const { chosenCoffees } = useContext(CoffeeContext)
+
+  console.log(chosenCoffees)
+
   return (
     <CartContainer>
       <div>
@@ -90,23 +96,38 @@ export const ShoppingCart = () => {
         <h3>Cafés selecionados</h3>
         <BackgroundCoffeeSelected>
           <ChosenCoffees>
-            <Coffee>
-              <img src={EspressoTraditional} alt="" />
-              <div>
-                <span>Expresso Tradicional</span>
-                <div>
-                  <div>
-                    <Minus size={14} className="plus-minus" weight="fill" />
-                    <span>1</span>
-                    <Plus size={14} className="plus-minus" weight="fill" />
-                  </div>
-                  <div>
-                    <Trash className="trash" size={16} /> <span>Remover</span>
-                  </div>
-                </div>
-              </div>
-              <p>R$ 9,90</p>
-            </Coffee>
+            {chosenCoffees.map((coffees) => {
+              return (
+                <>
+                  <Coffee key={coffees.id}>
+                    <img src={EspressoTraditional} alt="" />
+                    <div>
+                      <span>{coffees.name}</span>
+                      <div>
+                        <div>
+                          <Minus
+                            size={14}
+                            className="plus-minus"
+                            weight="fill"
+                          />
+                          <span>{coffees.amount}</span>
+                          <Plus
+                            size={14}
+                            className="plus-minus"
+                            weight="fill"
+                          />
+                        </div>
+                        <div>
+                          <Trash className="trash" size={16} />{' '}
+                          <span>Remover</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p>R${coffees.price}</p>
+                  </Coffee>
+                </>
+              )
+            })}
             <div>
               <div>
                 <span>Total de itens</span> <span>R$ 29,70</span>

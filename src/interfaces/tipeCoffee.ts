@@ -5,6 +5,7 @@ export interface ICoffee {
   price: number
   imageURL: string
   inventory: number
+  amount: number
   type: {
     traditional: boolean
     withMilk: boolean
