@@ -2,6 +2,7 @@ import { AddCoffee, CardContainer } from './style'
 import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
 import { ICoffee } from '../../../interfaces/tipeCoffee'
 import traditionalEspresso from '../../../assets/traditionalEspresso.svg'
+import { useState } from 'react'
 // import React, { useState } from 'react'
 
 interface ICardProps {
@@ -9,13 +10,12 @@ interface ICardProps {
 }
 
 export const Card = ({ coffee }: ICardProps) => {
-  // const [amountOfCoffee, setAmountOfCoffee] = useState<ICoffee[]>([])
+  const [putCoffeeInTheCart, setPutCoffeeInTheCart] = useState<ICoffee[]>([])
 
-  // function addCoffeeInTheCart(coffees: ICoffee) {
-  //   setAmountOfCoffee([...amountOfCoffee, coffees])
-  // }
-
-  // console.log(amountOfCoffee)
+  function addCoffeeInTheCart(ttt: ICoffee) {
+    setPutCoffeeInTheCart((state) => [...state, ttt])
+  }
+  console.log(putCoffeeInTheCart)
 
   return (
     <CardContainer>
@@ -36,12 +36,11 @@ export const Card = ({ coffee }: ICardProps) => {
             <span>1</span>
             <Plus size={14} className="plus-minus" weight="duotone" />
           </div>
-          <div>
+          <div onClick={() => addCoffeeInTheCart(coffee)}>
             <ShoppingCartSimple
               className="shoppingCartSimple"
               size={16}
               weight="fill"
-              // onClick={() => addCoffeeInTheCart(coffee)}
             />
           </div>
         </AddCoffee>
