@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-import { CoffeeContextsProvider } from './contexts/CoffesContext'
+import { CoffeeContextsProvider } from './contexts/CoffeesContext'
 import { Router } from './Router'
 import { GlobalStyles } from './styles/global'
 import { defaultThemes } from './styles/themes/default'

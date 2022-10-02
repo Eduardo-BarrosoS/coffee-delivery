@@ -3,7 +3,7 @@ import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
 import { ICoffee } from '../../../interfaces/tipeCoffee'
 import traditionalEspresso from '../../../assets/traditionalEspresso.svg'
 import { useContext } from 'react'
-import { CoffeeContext } from '../../../contexts/CoffesContext'
+import { CoffeeContext } from '../../../contexts/CoffeesContext'
 // import React, { useState } from 'react'
 
 interface ICardProps {
@@ -25,7 +25,6 @@ export const Card = ({ coffee }: ICardProps) => {
   }
 
   function chooseCoffee(coffeeSelected: ICoffee) {
-    console.log(coffeeSelected.id)
     addCoffeeInTheCart(coffeeSelected)
   }
 
