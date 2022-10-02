@@ -5,28 +5,13 @@ import EspressoTraditional from '../../../assets/traditionalEspresso.svg'
 import { NavLink } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { CoffeeContext } from '../../../contexts/CoffeesContext'
-import { ICoffee } from '../../../interfaces/tipeCoffee'
 
 export const ChosenCoffeeComponent = () => {
-  const { chosenCoffeesData } = useContext(CoffeeContext)
-
-  // const pricePerItem = chosenCoffeesData.map((coffees) => {
-  //   return coffees.price * coffees.amount
-  // })
-
-  // console.log(pricePerItem)
-
-  // const [amountCoffee, setAmountCoffee] = useState(1)
-  // let coffeeAmountChosen: ICoffee
-
-  // function chooseAmountOfCoffee(coffee: ICoffee, id: string) {
-  //   setAmountCoffee(amountCoffee + 1)
-
-  //   coffeeAmountChosen = coffee
-  // }
-  // useEffect(() => {
-
-  // }, [amountCoffee])
+  const { chosenCoffeesData, removeCoffeeSelected } = useContext(CoffeeContext)
+  const [totalItemsPrice, setTotalItemsPrice] = useState(0)
+  useEffect(() => {
+    setTotalItemsPrice(34)
+  }, [chosenCoffeesData])
 
   return (
     <div>
@@ -43,13 +28,13 @@ export const ChosenCoffeeComponent = () => {
                     <div>
                       <div>
                         <Minus size={14} className="plus-minus" weight="fill" />
-                        <span>amountCoffee</span>
+                        <span>1</span>
                         <Plus size={14} className="plus-minus" weight="fill" />
                       </div>
-                      <div>
-                        <Trash className="trash" size={16} />{' '}
+                      <button onClick={() => removeCoffeeSelected(coffees)}>
+                        <Trash className="trash" size={16} />
                         <span>Remover</span>
-                      </div>
+                      </button>
                     </div>
                   </div>
                   <p>R${coffees.price}</p>
@@ -59,7 +44,7 @@ export const ChosenCoffeeComponent = () => {
           })}
           <div className="prices">
             <div>
-              <span>Total de itens</span> <span>R$ 29,70</span>
+              <span>Total de itens</span> <span>R${totalItemsPrice}</span>
             </div>
             <div>
               <span>Entrega</span> <span>R$ 3,50</span>
@@ -69,7 +54,7 @@ export const ChosenCoffeeComponent = () => {
             </div>
           </div>
           <NavLink to="/confirmed">
-            <button> Confirmar pedido </button>
+            <button className="confirm-btn"> Confirmar pedido </button>
           </NavLink>
         </ChosenCoffees>
       </BackgroundCoffeeSelected>

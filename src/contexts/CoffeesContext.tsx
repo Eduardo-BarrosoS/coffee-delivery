@@ -11,6 +11,7 @@ import { ICoffee } from '../interfaces/tipeCoffee'
 interface ICoffeeContextProps {
   chosenCoffeesData: ICoffee[]
   addCoffeeInTheCart: (chosenCoffee: ICoffee) => void
+  removeCoffeeSelected: (chosenCoffee: ICoffee) => void
 }
 
 interface ICoffeeContextsProvider {
@@ -24,15 +25,22 @@ export const CoffeeContextsProvider = ({
 }: ICoffeeContextsProvider) => {
   const [chosenCoffeesData, setChosenCoffeesData] = useState<ICoffee[]>([])
 
-  // let amountOfCoffeeChosen
-
   function addCoffeeInTheCart(chosenCoffee: ICoffee) {
-    setChosenCoffeesData((state: ICoffee[]) => [...state, chosenCoffee])
-    // amountOfCoffeeChosen = amountOfCoffee
+    setChosenCoffeesData((state) => [...state, chosenCoffee])
   }
-  console.log(chosenCoffeesData)
+
+  function removeCoffeeSelected(coffeeRemove: ICoffee) {
+    const coffeeIndex = chosenCoffeesData.findIndex(
+      (coffee) => coffee.id === coffeeRemove.id,
+    )
+    chosenCoffeesData.splice(coffeeIndex, 1)
+    setChosenCoffeesData([...chosenCoffeesData])
+  }
+
   return (
-    <CoffeeContext.Provider value={{ chosenCoffeesData, addCoffeeInTheCart }}>
+    <CoffeeContext.Provider
+      value={{ chosenCoffeesData, addCoffeeInTheCart, removeCoffeeSelected }}
+    >
       {children}
     </CoffeeContext.Provider>
   )

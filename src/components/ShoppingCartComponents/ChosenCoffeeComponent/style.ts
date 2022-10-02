@@ -37,7 +37,7 @@ export const ChosenCoffees = styled.div`
       }
     }
   }
-  button {
+  .confirm-btn {
     width: 100%;
     height: 4.6rem;
     display: flex;
@@ -81,7 +81,8 @@ export const Coffee = styled.div`
       align-items: center;
       gap: 0.8rem;
       flex: 1;
-      div {
+      div,
+      button {
         background: ${(props) => props.theme['base-button']};
         border-radius: 0.6rem;
         display: flex;
@@ -89,6 +90,7 @@ export const Coffee = styled.div`
         gap: 0.6em;
         padding: 0.6rem 0.8rem;
         height: 3.2rem;
+        transition: all ease 0.2s;
         .plus-minus,
         .trash {
           color: ${(props) => props.theme.purple};
@@ -103,10 +105,14 @@ export const Coffee = styled.div`
           color: ${(props) => props.theme['base-title']};
         }
       }
-      div:nth-child(2) {
+      button {
+        border: none;
+        cursor: pointer;
+        &:hover {
+          background: ${(props) => props.theme['base-hover']};
+        }
         span {
           font-size: 1.2rem;
-
           color: ${(props) => props.theme['base-text']};
         }
       }
