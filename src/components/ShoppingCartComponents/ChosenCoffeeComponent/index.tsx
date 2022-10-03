@@ -3,12 +3,16 @@ import { BackgroundCoffeeSelected, ChosenCoffees, Coffee } from './style'
 
 import EspressoTraditional from '../../../assets/traditionalEspresso.svg'
 import { NavLink } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CoffeeContext } from '../../../contexts/CoffeesContext'
 
 export const ChosenCoffeeComponent = () => {
-  const { chosenCoffees, removeCoffeeSelected, updateCoffeeSelected } =
-    useContext(CoffeeContext)
+  const {
+    chosenCoffees,
+    priceArray,
+    removeCoffeeSelected,
+    updateCoffeeSelected,
+  } = useContext(CoffeeContext)
   // const [amountOfCoffee, setAmountOfCoffee] = useState(1)
   // const [totalItemsPrice, setTotalItemsPrice] = useState(0)
   // useEffect(() => {
@@ -26,6 +30,20 @@ export const ChosenCoffeeComponent = () => {
   //   }
   // }
 
+  // const totalItemsPrice: number = chosenCoffees.map((coffee) => {
+  //   return coffee.price + totalItemsPrice
+  // })
+  const [totalItemsPrice, setTotalItemsPrice] = useState(0)
+  useEffect(() => {
+    // for(var i: any , i <= chosenCoffees.length, i++) {
+
+    // }
+    for (let i = 0; i < priceArray.length; i++) {
+      setTotalItemsPrice(priceArray[i] + totalItemsPrice)
+    }
+  }, [priceArray])
+
+  console.log(totalItemsPrice)
   return (
     <div>
       <h3>Cafés selecionados</h3>
@@ -42,14 +60,14 @@ export const ChosenCoffeeComponent = () => {
                       <div>
                         <Minus
                           size={14}
-                          // onClick={() => setMinusAmount()}
+                          onClick={() => updateCoffeeSelected(coffees, false)}
                           className="plus-minus"
                           weight="fill"
                         />
                         <span>{coffees.amount}</span>
                         <Plus
                           size={14}
-                          onClick={() => updateCoffeeSelected(coffees)}
+                          onClick={() => updateCoffeeSelected(coffees, true)}
                           className="plus-minus"
                           weight="fill"
                         />
@@ -60,14 +78,14 @@ export const ChosenCoffeeComponent = () => {
                       </button>
                     </div>
                   </div>
-                  <p>R${coffees.price}</p>
+                  <p>R${coffees.price * coffees.amount}</p>
                 </Coffee>
               </>
             )
           })}
           <div className="prices">
             <div>
-              <span>Total de itens</span> <span>R$34</span>
+              <span>Total de itens</span> <span>R${totalItemsPrice}</span>
             </div>
             <div>
               <span>Entrega</span> <span>R$ 3,50</span>
