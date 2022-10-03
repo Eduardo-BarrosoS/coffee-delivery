@@ -53,10 +53,7 @@ export const Card = ({ coffee }: ICardProps) => {
             <Plus size={14} className="plus-minus" weight="duotone" />
           </div>
           {/* { chosenCoffees.id ? } */}
-          <div
-            onClick={() => chooseCoffee(coffee)}
-            onMouseLeave={() => console.log('i already get there')}
-          >
+          <div onClick={() => chooseCoffee(coffee)}>
             <ShoppingCartSimple
               className="shoppingCartSimple"
               size={16}
