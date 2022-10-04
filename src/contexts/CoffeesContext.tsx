@@ -10,7 +10,6 @@ import { ICoffee } from '../interfaces/tipeCoffee'
 
 interface ICoffeeContextProps {
   chosenCoffees: ICoffee[]
-  priceArray: number[]
   addCoffeeInTheCart: (chosenCoffee: ICoffee) => void
   removeCoffeeSelected: (coffeeId: string) => void
   updateCoffeeSelected: (coffeeId: ICoffee, increment: boolean) => void
@@ -29,7 +28,7 @@ export const CoffeeContextsProvider = ({
   children,
 }: ICoffeeContextsProvider) => {
   // const [chosenCoffeesData, setChosenCoffeesData] = useState<ICoffee[]>([])
-  const priceArray: number[] = []
+
   const [chosenCoffees, dispatch] = useReducer(
     (state: ICoffee[], action: any) => {
       switch (action.type) {
@@ -40,14 +39,7 @@ export const CoffeeContextsProvider = ({
           return state.filter((coffee) => coffee.id !== action.payload.coffeeId)
         }
         case 'UPDATE_COFFEE_BY_LIST': {
-          // const alreadyExist = state.find((coffee) => {
-          //   return coffee.id === action.payload.chosenCoffee.id
-          // })
-          // if (!alreadyExist) {
-
-          // }
           return state.map((coffee) => {
-            priceArray.push(coffee.price)
             if (coffee.id === action.payload.coffee.id) {
               if (action.payload.increment === true) {
                 coffee.amount = action.payload.coffee.amount + 1
@@ -64,7 +56,6 @@ export const CoffeeContextsProvider = ({
     },
     [],
   )
-  console.log(chosenCoffees)
 
   function addCoffeeInTheCart(chosenCoffee: ICoffee) {
     dispatch({
@@ -97,7 +88,7 @@ export const CoffeeContextsProvider = ({
     <CoffeeContext.Provider
       value={{
         chosenCoffees,
-        priceArray,
+
         addCoffeeInTheCart,
         removeCoffeeSelected,
         updateCoffeeSelected,

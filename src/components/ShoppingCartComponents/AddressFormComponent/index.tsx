@@ -1,13 +1,11 @@
 import { MapPinLine } from 'phosphor-react'
 import { Background, FromContainer, Requirements } from './style'
 
-import { useContext } from 'react'
-import { CoffeeContext } from '../../../contexts/CoffeesContext'
+// import { useContext } from 'react'
+// import { CoffeeContext } from '../../../contexts/CoffeesContext'
 
 export const AddressFormComponent = () => {
-  const { chosenCoffees } = useContext(CoffeeContext)
-
-  console.log(chosenCoffees)
+  // const { chosenCoffees } = useContext(CoffeeContext)
 
   return (
     <Background className="address">

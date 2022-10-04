@@ -7,12 +7,8 @@ import { useContext, useEffect, useState } from 'react'
 import { CoffeeContext } from '../../../contexts/CoffeesContext'
 
 export const ChosenCoffeeComponent = () => {
-  const {
-    chosenCoffees,
-    priceArray,
-    removeCoffeeSelected,
-    updateCoffeeSelected,
-  } = useContext(CoffeeContext)
+  const { chosenCoffees, removeCoffeeSelected, updateCoffeeSelected } =
+    useContext(CoffeeContext)
   // const [amountOfCoffee, setAmountOfCoffee] = useState(1)
   // const [totalItemsPrice, setTotalItemsPrice] = useState(0)
   // useEffect(() => {
@@ -30,20 +26,13 @@ export const ChosenCoffeeComponent = () => {
   //   }
   // }
 
-  // const totalItemsPrice: number = chosenCoffees.map((coffee) => {
-  //   return coffee.price + totalItemsPrice
-  // })
   const [totalItemsPrice, setTotalItemsPrice] = useState(0)
   useEffect(() => {
-    // for(var i: any , i <= chosenCoffees.length, i++) {
+    chosenCoffees.forEach((coffee) => {
+      setTotalItemsPrice(coffee.price + totalItemsPrice)
+    })
+  }, [chosenCoffees])
 
-    // }
-    for (let i = 0; i < priceArray.length; i++) {
-      setTotalItemsPrice(priceArray[i] + totalItemsPrice)
-    }
-  }, [priceArray])
-
-  console.log(totalItemsPrice)
   return (
     <div>
       <h3>Cafés selecionados</h3>
