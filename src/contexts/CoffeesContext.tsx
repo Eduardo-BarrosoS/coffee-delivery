@@ -12,7 +12,7 @@ interface ICoffeeContextProps {
   chosenCoffees: ICoffee[]
   addCoffeeInTheCart: (chosenCoffee: ICoffee) => void
   removeCoffeeSelected: (coffeeId: string) => void
-  updateCoffeeSelected: (coffeeId: ICoffee) => void
+  updateCoffeeSelected: (coffeeId: ICoffee, increment: boolean) => void
 }
 
 interface ICoffeeContextsProvider {
@@ -32,23 +32,23 @@ export const CoffeeContextsProvider = ({
   const [chosenCoffees, dispatch] = useReducer(
     (state: ICoffee[], action: any) => {
       switch (action.type) {
-        case 'ADD_NEW_COFFEE_IN_THE_LIST':
+        case 'ADD_NEW_COFFEE_IN_THE_LIST': {
           return [...state, action.payload.chosenCoffee]
+        }
         case 'REMOVE_COFFEE_BY_LIST': {
           return state.filter((coffee) => coffee.id !== action.payload.coffeeId)
         }
         case 'UPDATE_COFFEE_BY_LIST': {
-          console.log(
-            (action.payload.coffee.amount = action.payload.coffee.amount + 1),
-          )
-          // return state.map((coffee) => {
-          //   if (coffee.id === action.payload.coffee.id) {
-          //     return (coffee.amount = coffee.amount + 1)
-          //   }
-          // })
-          // return state.filter((coffee) => {
-          //   const coffeeUpdated = coffee.id === action.payload.coffee.id
-          // })
+          return state.map((coffee) => {
+            if (coffee.id === action.payload.coffee.id) {
+              if (action.payload.increment === true) {
+                coffee.amount = action.payload.coffee.amount + 1
+              } else {
+                coffee.amount = action.payload.coffee.amount - 1
+              }
+            }
+            return coffee
+          })
         }
       }
 
@@ -56,7 +56,6 @@ export const CoffeeContextsProvider = ({
     },
     [],
   )
-  console.log(chosenCoffees)
 
   function addCoffeeInTheCart(chosenCoffee: ICoffee) {
     dispatch({
@@ -75,11 +74,12 @@ export const CoffeeContextsProvider = ({
       },
     })
   }
-  function updateCoffeeSelected(coffee: ICoffee) {
+  function updateCoffeeSelected(coffee: ICoffee, increment: boolean) {
     dispatch({
       type: 'UPDATE_COFFEE_BY_LIST',
       payload: {
         coffee,
+        increment,
       },
     })
   }
@@ -87,8 +87,9 @@ export const CoffeeContextsProvider = ({
   return (
     <CoffeeContext.Provider
       value={{
-        addCoffeeInTheCart,
         chosenCoffees,
+
+        addCoffeeInTheCart,
         removeCoffeeSelected,
         updateCoffeeSelected,
       }}

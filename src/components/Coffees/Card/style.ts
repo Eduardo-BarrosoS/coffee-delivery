@@ -99,15 +99,35 @@ export const AddCoffee = styled.div`
     }
   }
 
-  div:last-child {
+  .addCoffee-btn,
+  .removeCoffee-btn {
     padding: 0.8rem;
-    background: ${(props) => props.theme['purple-dark']};
-    color: ${(props) => props.theme.white};
     border-radius: 0.6rem;
     cursor: pointer;
     transition: all ease 0.2s;
+    border: none;
+    outline: none;
+  }
+
+  .addCoffee-btn {
+    background: ${(props) => props.theme['purple-dark']};
+    color: ${(props) => props.theme.white};
+
     &:hover {
       background: ${(props) => props.theme.purple};
+    }
+  }
+  .tooltip {
+    height: 4rem;
+    font-size: 2rem;
+    color: red;
+  }
+  .removeCoffee-btn {
+    background: ${(props) => props.theme['base-button']};
+    color: ${(props) => props.theme.yellow};
+
+    &:hover {
+      background: ${(props) => props.theme['base-hover']};
     }
   }
 `
