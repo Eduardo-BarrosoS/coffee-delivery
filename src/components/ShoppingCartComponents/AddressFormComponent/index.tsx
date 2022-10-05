@@ -1,11 +1,12 @@
 import { MapPinLine } from 'phosphor-react'
+import { useFormContext } from 'react-hook-form'
 import { Background, FromContainer, Requirements } from './style'
 
 // import { useContext } from 'react'
 // import { CoffeeContext } from '../../../contexts/CoffeesContext'
 
 export const AddressFormComponent = () => {
-  // const { chosenCoffees } = useContext(CoffeeContext)
+  const { register } = useFormContext()
 
   return (
     <Background className="address">
@@ -18,7 +19,12 @@ export const AddressFormComponent = () => {
           </div>
         </Requirements>
         <FromContainer action="">
-          <input type="text" placeholder="CPF" className="CEP" />
+          <input
+            type="text"
+            placeholder="CPF"
+            className="CEP"
+            {...register('CPF')}
+          />
           <input type="text" placeholder="Rua" className="street" />
           <div>
             <input type="number" placeholder="Número" className="number" />

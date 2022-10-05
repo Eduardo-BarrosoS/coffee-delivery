@@ -29,7 +29,7 @@ export const ChosenCoffeeComponent = () => {
   const [totalItemsPrice, setTotalItemsPrice] = useState(0)
   useEffect(() => {
     chosenCoffees.forEach((coffee) => {
-      setTotalItemsPrice(coffee.price + totalItemsPrice)
+      setTotalItemsPrice(coffee.price * coffee.amount + totalItemsPrice)
     })
   }, [chosenCoffees])
 
@@ -80,7 +80,7 @@ export const ChosenCoffeeComponent = () => {
               <span>Entrega</span> <span>R$ 3,50</span>
             </div>
             <div>
-              <p> Total </p> <p>R$ 33,20 </p>
+              <p> Total </p> <p>R${totalItemsPrice + 3.5} </p>
             </div>
           </div>
           <NavLink to="/confirmed">
