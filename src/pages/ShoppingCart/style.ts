@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const CartContainer = styled.div`
+export const CartContainer = styled.form`
   width: 100%;
   display: grid;
   grid-template-columns: auto auto;
@@ -57,7 +57,8 @@ export const Payment = styled.div`
     justify-content: space-between;
     margin-top: 3.2rem;
 
-    div {
+    div,
+    label {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -66,6 +67,12 @@ export const Payment = styled.div`
       height: 5.1rem;
       background: ${(props) => props.theme['base-button']};
       border-radius: 0.6rem;
+      cursor: pointer;
+      transition: all ease-in-out 0.2s;
+
+      &:hover {
+        background: ${(props) => props.theme['base-hover']};
+      }
 
       .money,
       .bank,
@@ -80,6 +87,13 @@ export const Payment = styled.div`
         color: ${(props) => props.theme['base-text']};
         text-transform: uppercase;
       }
+    }
+
+    #credit:checked ~ .creditLabel,
+    #debit:checked ~ .debitLabel,
+    #money:checked ~ .moneyLabel {
+      border: 1px solid ${(props) => props.theme.purple};
+      background: ${(props) => props.theme['purple-light']};
     }
   }
 `

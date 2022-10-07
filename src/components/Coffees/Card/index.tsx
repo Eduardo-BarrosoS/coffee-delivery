@@ -13,7 +13,7 @@ interface ICardProps {
 }
 
 export const Card = ({ coffee, alreadyExist }: ICardProps) => {
-  const { addCoffeeInTheCart, updateCoffeeSelected, removeCoffeeSelected } =
+  const { addNewCoffeeInCart, updateCoffee, removeCoffee } =
     useContext(CoffeeContext)
   // const [amountOfCoffee, setAmountOfCoffee] = useState(0)
 
@@ -28,7 +28,7 @@ export const Card = ({ coffee, alreadyExist }: ICardProps) => {
   // }
 
   function chooseCoffee(coffeeSelected: ICoffee) {
-    addCoffeeInTheCart(coffeeSelected)
+    addNewCoffeeInCart(coffeeSelected)
   }
 
   return (
@@ -57,7 +57,7 @@ export const Card = ({ coffee, alreadyExist }: ICardProps) => {
             ) : (
               <Minus
                 size={14}
-                onClick={() => updateCoffeeSelected(coffee, false)}
+                onClick={() => updateCoffee(coffee, false)}
                 className="plus-minus"
                 weight="duotone"
               />
@@ -79,7 +79,7 @@ export const Card = ({ coffee, alreadyExist }: ICardProps) => {
                 className="plus-minus"
                 weight="duotone"
                 onClick={() => {
-                  updateCoffeeSelected(coffee, true)
+                  updateCoffee(coffee, true)
                 }}
               />
             )}
@@ -88,7 +88,7 @@ export const Card = ({ coffee, alreadyExist }: ICardProps) => {
           {alreadyExist ? (
             <button
               className="removeCoffee-btn"
-              onClick={() => removeCoffeeSelected(coffee.id)}
+              onClick={() => removeCoffee(coffee.id)}
             >
               <Trash className="shoppingCartSimple" size={16} weight="fill" />
             </button>

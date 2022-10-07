@@ -1,97 +1,58 @@
-import { createContext, ReactNode, useReducer } from 'react'
+import { createContext, ReactNode, useReducer, useState } from 'react'
+import {
+  addCoffeeInTheCart,
+  removeCoffeeSelected,
+  updateCoffeeSelected,
+} from '../components/reducers/coffee/actions'
+import { coffeeReducer } from '../components/reducers/coffee/reduce'
 import { ICoffee } from '../interfaces/tipeCoffee'
-
-// interface IChosenCoffee {
-//   chosenCoffee: {
-//     coffee: ICoffee[]
-//     amountOfCoffeeChosen: number
-//   }
-// }
-
+interface IlocaleHeader {
+  city: string
+  uf: string
+}
 interface ICoffeeContextProps {
   chosenCoffees: ICoffee[]
-  addCoffeeInTheCart: (chosenCoffee: ICoffee) => void
-  removeCoffeeSelected: (coffeeId: string) => void
-  updateCoffeeSelected: (coffeeId: ICoffee, increment: boolean) => void
+  localeHeader: IlocaleHeader
+  addNewCoffeeInCart: (chosenCoffee: ICoffee) => void
+  removeCoffee: (coffeeId: string) => void
+  updateCoffee: (coffee: ICoffee, increment: boolean) => void
+  setLocaleHeader: (data: IlocaleHeader) => void
 }
-
 interface ICoffeeContextsProvider {
   children: ReactNode
 }
 
-// interface ICoffeesReducer {
-//   chosenCoffees: ICoffee[]
-// }
 export const CoffeeContext = createContext({} as ICoffeeContextProps)
 
 export const CoffeeContextsProvider = ({
   children,
 }: ICoffeeContextsProvider) => {
-  // const [chosenCoffeesData, setChosenCoffeesData] = useState<ICoffee[]>([])
+  const [chosenCoffees, dispatch] = useReducer(coffeeReducer, [])
 
-  const [chosenCoffees, dispatch] = useReducer(
-    (state: ICoffee[], action: any) => {
-      switch (action.type) {
-        case 'ADD_NEW_COFFEE_IN_THE_LIST': {
-          return [...state, action.payload.chosenCoffee]
-        }
-        case 'REMOVE_COFFEE_BY_LIST': {
-          return state.filter((coffee) => coffee.id !== action.payload.coffeeId)
-        }
-        case 'UPDATE_COFFEE_BY_LIST': {
-          return state.map((coffee) => {
-            if (coffee.id === action.payload.coffee.id) {
-              if (action.payload.increment === true) {
-                coffee.amount = action.payload.coffee.amount + 1
-              } else {
-                coffee.amount = action.payload.coffee.amount - 1
-              }
-            }
-            return coffee
-          })
-        }
-      }
-
-      return state
-    },
-    [],
-  )
-
-  function addCoffeeInTheCart(chosenCoffee: ICoffee) {
-    dispatch({
-      type: 'ADD_NEW_COFFEE_IN_THE_LIST',
-      payload: {
-        chosenCoffee,
-      },
-    })
+  function addNewCoffeeInCart(chosenCoffee: ICoffee) {
+    dispatch(addCoffeeInTheCart(chosenCoffee))
+  }
+  function removeCoffee(coffeeId: string) {
+    dispatch(removeCoffeeSelected(coffeeId))
+  }
+  function updateCoffee(coffee: ICoffee, increment: boolean) {
+    dispatch(updateCoffeeSelected(coffee, increment))
   }
 
-  function removeCoffeeSelected(coffeeId: string) {
-    dispatch({
-      type: 'REMOVE_COFFEE_BY_LIST',
-      payload: {
-        coffeeId,
-      },
-    })
-  }
-  function updateCoffeeSelected(coffee: ICoffee, increment: boolean) {
-    dispatch({
-      type: 'UPDATE_COFFEE_BY_LIST',
-      payload: {
-        coffee,
-        increment,
-      },
-    })
-  }
+  const [localeHeader, setLocaleHeader] = useState({
+    city: '',
+    uf: '',
+  })
 
   return (
     <CoffeeContext.Provider
       value={{
         chosenCoffees,
-
-        addCoffeeInTheCart,
-        removeCoffeeSelected,
-        updateCoffeeSelected,
+        localeHeader,
+        addNewCoffeeInCart,
+        removeCoffee,
+        updateCoffee,
+        setLocaleHeader,
       }}
     >
       {children}

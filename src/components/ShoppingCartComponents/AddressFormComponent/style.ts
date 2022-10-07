@@ -36,7 +36,7 @@ export const Requirements = styled.div`
   }
 `
 
-export const FromContainer = styled.form`
+export const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -49,13 +49,13 @@ export const FromContainer = styled.form`
     border: none;
     color: ${(props) => props.theme['base-text']};
     outline: none;
+    font-weight: 400;
+    font-size: 14px;
     &:focus {
       border: 1px solid ${(props) => props.theme['yellow-dark']};
     }
     &::placeholder {
       color: ${(props) => props.theme['base-label']};
-      font-weight: 400;
-      font-size: 14px;
     }
   }
 
