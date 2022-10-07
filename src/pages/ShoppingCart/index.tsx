@@ -11,14 +11,16 @@ import * as zod from 'zod'
 import { useState } from 'react'
 
 const coffeeFormValidationSchema = zod.object({
-  cpf: zod.string(),
+  cep: zod.number().min(8).max(8),
   street: zod.string(),
   number: zod.number(),
   complement: zod.string(),
   district: zod.string(),
   city: zod.string(),
   uf: zod.string(),
-  paymentOption: zod.string(),
+  credit: zod.string(),
+  debit: zod.string(),
+  money: zod.string(),
 })
 
 type coffeeFromData = zod.infer<typeof coffeeFormValidationSchema>
@@ -29,22 +31,24 @@ export const ShoppingCart = () => {
   const newCoffeeFormContext = useForm<coffeeFromData>({
     resolver: zodResolver(coffeeFormValidationSchema),
     defaultValues: {
-      cpf: '',
+      cep: undefined,
       street: '',
-      number: Number(),
+      number: undefined,
       complement: '',
       district: '',
       city: '',
       uf: '',
-      paymentOption: 'credit' || 'debit' || 'money',
+      credit: '',
+      debit: '',
+      money: '',
     },
   })
 
   const { register } = newCoffeeFormContext
 
   return (
-    <CartContainer>
-      <FormProvider {...newCoffeeFormContext}>
+    <FormProvider {...newCoffeeFormContext}>
+      <CartContainer>
         <div>
           <h3>Complete seu pedido</h3>
           <AddressFormComponent />
@@ -67,7 +71,7 @@ export const ShoppingCart = () => {
                   checked={inputRadioIsChecked === 'credit'}
                   id="credit"
                   hidden
-                  {...register('paymentOption', {
+                  {...register('credit', {
                     onChange: () => setInputRadioIsChecked('credit'),
                   })}
                 />
@@ -81,7 +85,7 @@ export const ShoppingCart = () => {
                   checked={inputRadioIsChecked === 'debit'}
                   id="debit"
                   hidden
-                  {...register('paymentOption', {
+                  {...register('debit', {
                     onChange: () => setInputRadioIsChecked('debit'),
                   })}
                 />
@@ -94,7 +98,7 @@ export const ShoppingCart = () => {
                   checked={inputRadioIsChecked === 'money'}
                   id="money"
                   hidden
-                  {...register('paymentOption', {
+                  {...register('money', {
                     onChange: () => setInputRadioIsChecked('money'),
                   })}
                 />
@@ -106,8 +110,10 @@ export const ShoppingCart = () => {
           </Background>
         </div>
 
-        <ChosenCoffeeComponent />
-      </FormProvider>
-    </CartContainer>
+        <ChosenCoffeeComponent inputRadioIsChecked={inputRadioIsChecked} />
+
+        <button> fechar pedido </button>
+      </CartContainer>
+    </FormProvider>
   )
 }

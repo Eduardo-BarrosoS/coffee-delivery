@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const CartContainer = styled.div`
+export const CartContainer = styled.form`
   width: 100%;
   display: grid;
   grid-template-columns: auto auto;
