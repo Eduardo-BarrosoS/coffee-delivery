@@ -2,29 +2,62 @@ import { Minus, Plus, Trash } from 'phosphor-react'
 import { BackgroundCoffeeSelected, ChosenCoffees, Coffee } from './style'
 
 import EspressoTraditional from '../../../assets/traditionalEspresso.svg'
-import { NavLink } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CoffeeContext } from '../../../contexts/CoffeesContext'
+import { useFormContext } from 'react-hook-form'
 
-export const ChosenCoffeeComponent = () => {
-  const { chosenCoffees, removeCoffeeSelected, updateCoffeeSelected } =
+interface chosenCoffeeComponentProps {
+  inputRadioIsChecked: string
+}
+
+interface IItemsPrice {
+  coffeeId: string
+  coffeeTotalPrice: number
+}
+
+export const ChosenCoffeeComponent = ({
+  inputRadioIsChecked,
+}: chosenCoffeeComponentProps) => {
+  const { chosenCoffees, removeCoffee, updateCoffee, setLocaleHeader } =
     useContext(CoffeeContext)
-  // const [amountOfCoffee, setAmountOfCoffee] = useState(1)
-  // const [totalItemsPrice, setTotalItemsPrice] = useState(0)
-  // useEffect(() => {
-  //   setTotalItemsPrice(34)
-  // }, [chosenCoffeesData])
 
-  // function setMinusAmount() {
-  //   if (amountOfCoffee > 1) {
-  //     setAmountOfCoffee(amountOfCoffee + 1)
-  //   }
-  // }
-  // function setPlusAmount(inventory: number) {
-  //   if (amountOfCoffee < inventory) {
-  //     setAmountOfCoffee(amountOfCoffee + 1)
-  //   }
-  // }
+  const [totalItemsPrice, setTotalItemsPrice] = useState(0)
+
+  const itemsPrice: IItemsPrice[] = []
+  useEffect(() => {
+    chosenCoffees.forEach((coffee) => {
+      itemsPrice.push({
+        coffeeId: coffee.id,
+        coffeeTotalPrice: coffee.amount * coffee.price,
+      })
+    })
+
+    setTotalItemsPrice(
+      itemsPrice.reduce((acc, item) => acc + item.coffeeTotalPrice, 0),
+    )
+  }, [chosenCoffees])
+
+  const { getValues, setValue } = useFormContext()
+
+  console.log(itemsPrice)
+  function handleCoffeeSubmit() {
+    inputRadioIsChecked === 'credit'
+      ? setValue('credit', 'true')
+      : setValue('credit', 'false')
+    inputRadioIsChecked === 'debit'
+      ? setValue('debit', 'true')
+      : setValue('debit', 'false')
+    inputRadioIsChecked === 'money'
+      ? setValue('money', 'true')
+      : setValue('money', 'false')
+
+    const datas = getValues()
+
+    setLocaleHeader({
+      city: datas.city,
+      uf: datas.uf,
+    })
+  }
 
   return (
     <div>
@@ -42,43 +75,48 @@ export const ChosenCoffeeComponent = () => {
                       <div>
                         <Minus
                           size={14}
-                          // onClick={() => setMinusAmount()}
+                          onClick={() => updateCoffee(coffees, false)}
                           className="plus-minus"
                           weight="fill"
                         />
                         <span>{coffees.amount}</span>
                         <Plus
                           size={14}
-                          onClick={() => updateCoffeeSelected(coffees)}
+                          onClick={() => updateCoffee(coffees, true)}
                           className="plus-minus"
                           weight="fill"
                         />
                       </div>
-                      <button onClick={() => removeCoffeeSelected(coffees.id)}>
+                      <button onClick={() => removeCoffee(coffees.id)}>
                         <Trash className="trash" size={16} />
                         <span>Remover</span>
                       </button>
                     </div>
                   </div>
-                  <p>R${coffees.price}</p>
+                  <p>R${coffees.price * coffees.amount}</p>
                 </Coffee>
               </>
             )
           })}
           <div className="prices">
             <div>
-              <span>Total de itens</span> <span>R$34</span>
+              <span>Total de itens</span> <span>R${totalItemsPrice}</span>
             </div>
             <div>
-              <span>Entrega</span> <span>R$ 3,50</span>
+              <span>Entrega</span> <span>R${totalItemsPrice ? 3.5 : 0.0}</span>
             </div>
             <div>
-              <p> Total </p> <p>R$ 33,20 </p>
+              <p> Total </p>
+              <p>R${totalItemsPrice ? totalItemsPrice + 3.5 : 0.0}</p>
             </div>
           </div>
-          <NavLink to="/confirmed">
-            <button className="confirm-btn"> Confirmar pedido </button>
-          </NavLink>
+
+          <input
+            type="button"
+            onClick={() => handleCoffeeSubmit()}
+            className="confirm-btn"
+            value="Confirmar pedido"
+          />
         </ChosenCoffees>
       </BackgroundCoffeeSelected>
     </div>

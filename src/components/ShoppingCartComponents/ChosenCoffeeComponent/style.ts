@@ -51,8 +51,12 @@ export const ChosenCoffees = styled.div`
     font-size: 1.4rem;
     color: ${(props) => props.theme.white};
     transition: all ease 0.2s;
-    &:hover {
+    &:not(:disabled):hover {
       background: ${(props) => props.theme['yellow-dark']};
+    }
+    &:disabled {
+      background: ${(props) => props.theme['base-label']};
+      cursor: not-allowed;
     }
   }
 `
