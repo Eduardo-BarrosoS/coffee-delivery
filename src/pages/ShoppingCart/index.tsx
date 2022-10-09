@@ -9,6 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useState } from 'react'
+import { ICoffee } from '../../interfaces/tipeCoffee'
 
 const coffeeFormValidationSchema = zod.object({
   cep: zod.number().min(8).max(8),
@@ -23,7 +24,15 @@ const coffeeFormValidationSchema = zod.object({
   money: zod.string(),
 })
 
-type coffeeFromData = zod.infer<typeof coffeeFormValidationSchema>
+export type coffeeFromData = zod.infer<typeof coffeeFormValidationSchema>
+
+export interface ICoffeeOrderFinished {
+  addressInfo: coffeeFromData
+  coffeeList: ICoffee[]
+  totalItemsPrice: number
+  totalPrice: number
+  deliveryFee: number
+}
 
 export const ShoppingCart = () => {
   const [inputRadioIsChecked, setInputRadioIsChecked] = useState('')

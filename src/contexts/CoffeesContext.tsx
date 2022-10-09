@@ -6,6 +6,7 @@ import {
 } from '../components/reducers/coffee/actions'
 import { coffeeReducer } from '../components/reducers/coffee/reduce'
 import { ICoffee } from '../interfaces/tipeCoffee'
+import { ICoffeeOrderFinished } from '../pages/ShoppingCart'
 interface IlocaleHeader {
   city: string
   uf: string
@@ -17,6 +18,7 @@ interface ICoffeeContextProps {
   removeCoffee: (coffeeId: string) => void
   updateCoffee: (coffee: ICoffee, increment: boolean) => void
   setLocaleHeader: (data: IlocaleHeader) => void
+  getAllOrderInfo: (order: ICoffeeOrderFinished) => void
 }
 interface ICoffeeContextsProvider {
   children: ReactNode
@@ -28,6 +30,10 @@ export const CoffeeContextsProvider = ({
   children,
 }: ICoffeeContextsProvider) => {
   const [chosenCoffees, dispatch] = useReducer(coffeeReducer, [])
+  const [localeHeader, setLocaleHeader] = useState({
+    city: '',
+    uf: '',
+  })
 
   function addNewCoffeeInCart(chosenCoffee: ICoffee) {
     dispatch(addCoffeeInTheCart(chosenCoffee))
@@ -39,10 +45,9 @@ export const CoffeeContextsProvider = ({
     dispatch(updateCoffeeSelected(coffee, increment))
   }
 
-  const [localeHeader, setLocaleHeader] = useState({
-    city: '',
-    uf: '',
-  })
+  function getAllOrderInfo(order: ICoffeeOrderFinished) {
+    console.log(order)
+  }
 
   return (
     <CoffeeContext.Provider
@@ -53,6 +58,7 @@ export const CoffeeContextsProvider = ({
         removeCoffee,
         updateCoffee,
         setLocaleHeader,
+        getAllOrderInfo,
       }}
     >
       {children}
