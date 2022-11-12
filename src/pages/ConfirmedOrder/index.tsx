@@ -1,8 +1,23 @@
 import manMakingDelivery from '../../assets/confirmedOrder/manMakingDelivery.svg'
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
 import { OrderInformation, TitleContainer } from './style'
+import { Location, useLocation } from 'react-router-dom'
+// import { useState } from 'react'
+import { ICoffeeOrderFinished } from '../ShoppingCart'
+
+interface ILocation extends Location {
+  state: {
+    order: ICoffeeOrderFinished
+  }
+}
 
 export const ConfirmedOrder = () => {
+  const locale: ILocation = useLocation()
+
+  console.log(locale)
+
+  // const [orderData, setOrderData] = useState()
+
   return (
     <>
       <TitleContainer>
@@ -17,7 +32,12 @@ export const ConfirmedOrder = () => {
             </div>
             <div>
               <span>
-                Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                Entrega em{' '}
+                <strong>
+                  asdasdW
+                  {/* {locale.state.order.addressInfo.city},
+                  {locale.state.order.addressInfo.number} */}
+                </strong>
                 Farrapos - Porto Alegre, RS
               </span>
             </div>

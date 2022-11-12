@@ -42,7 +42,7 @@ export const ChosenCoffeeComponent = ({
     deliveryFee: 0,
   })
 
-  const { getValues, setValue, formState } = useFormContext<coffeeFromData>()
+  const { getValues, setValue } = useFormContext<coffeeFromData>()
   const {
     chosenCoffees,
     removeCoffee,
@@ -54,6 +54,18 @@ export const ChosenCoffeeComponent = ({
   const deliveryFee = 3.5
   const itemsPrice: IItemsPrice[] = []
   let datas: coffeeFromData
+  // const [datas, setDatas] = useState<coffeeFromData>({
+  //   cep: 0,
+  //   street: '',
+  //   number: 0,
+  //   complement: '',
+  //   district: '',
+  //   city: '',
+  //   uf: '',
+  //   credit: '',
+  //   debit: '',
+  //   money: '',
+  // })
 
   useEffect(() => {
     chosenCoffees.forEach((coffee) => {
@@ -66,20 +78,23 @@ export const ChosenCoffeeComponent = ({
     setTotalItemsPrice(
       itemsPrice.reduce((acc, item) => acc + item.coffeeTotalPrice, 0),
     )
-    handleAllOrderInfo()
+    handleAllOrderInfo(datas)
   }, [chosenCoffees])
 
-  function handleAllOrderInfo() {
+  function handleAllOrderInfo(address: coffeeFromData) {
     setOrderFinished({
-      addressInfo: datas,
+      addressInfo: address,
       coffeeList: chosenCoffees,
       totalItemsPrice,
       totalPrice: totalItemsPrice + deliveryFee,
       deliveryFee,
     })
-    console.log(orderFinished)
-    getAllOrderInfo(orderFinished)
+    console.log(
+      '🚀 ~ file: index.tsx ~ line 111 ~ handleCoffeeSubmit ~ orderFinished',
+      orderFinished,
+    )
   }
+
   function handleCoffeeSubmit() {
     inputRadioIsChecked === 'credit'
       ? setValue('credit', 'true')
@@ -91,12 +106,14 @@ export const ChosenCoffeeComponent = ({
       ? setValue('money', 'true')
       : setValue('money', 'false')
 
+    // setDatas(getValues())
     datas = getValues()
-    handleAllOrderInfo()
     setLocaleHeader({
       city: datas.city,
       uf: datas.uf,
     })
+    handleAllOrderInfo(datas)
+    getAllOrderInfo(orderFinished)
   }
 
   return (
@@ -152,12 +169,17 @@ export const ChosenCoffeeComponent = ({
             </div>
           </div>
 
-          <input
-            type="button"
-            onClick={() => handleCoffeeSubmit()}
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault()
+              handleCoffeeSubmit()
+            }}
             className="confirm-btn"
-            value="Confirmar pedido"
-          />
+            // disabled={}
+          >
+            Confirmar pedido
+          </button>
         </ChosenCoffees>
       </BackgroundCoffeeSelected>
     </div>

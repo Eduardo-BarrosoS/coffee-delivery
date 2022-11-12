@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useReducer, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   addCoffeeInTheCart,
   removeCoffeeSelected,
@@ -29,6 +30,7 @@ export const CoffeeContext = createContext({} as ICoffeeContextProps)
 export const CoffeeContextsProvider = ({
   children,
 }: ICoffeeContextsProvider) => {
+  const navigate = useNavigate()
   const [chosenCoffees, dispatch] = useReducer(coffeeReducer, [])
   const [localeHeader, setLocaleHeader] = useState({
     city: '',
@@ -46,7 +48,14 @@ export const CoffeeContextsProvider = ({
   }
 
   function getAllOrderInfo(order: ICoffeeOrderFinished) {
-    console.log(order)
+    // if (!order) {
+    // console.log(order)
+    // navigate('/confirmed', {
+    //   state: {
+    //     order,
+    //   },
+    // })
+    // }
   }
 
   return (
