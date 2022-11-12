@@ -5,6 +5,10 @@ import EspressoTraditional from '../../../assets/traditionalEspresso.svg'
 import { useContext, useEffect, useState } from 'react'
 import { CoffeeContext } from '../../../contexts/CoffeesContext'
 import { useFormContext } from 'react-hook-form'
+import {
+  coffeeFromData,
+  ICoffeeOrderFinished,
+} from '../../../pages/ShoppingCart'
 
 interface chosenCoffeeComponentProps {
   inputRadioIsChecked: string
@@ -18,12 +22,51 @@ interface IItemsPrice {
 export const ChosenCoffeeComponent = ({
   inputRadioIsChecked,
 }: chosenCoffeeComponentProps) => {
-  const { chosenCoffees, removeCoffee, updateCoffee, setLocaleHeader } =
-    useContext(CoffeeContext)
-
   const [totalItemsPrice, setTotalItemsPrice] = useState(0)
+  const [orderFinished, setOrderFinished] = useState<ICoffeeOrderFinished>({
+    addressInfo: {
+      cep: 0,
+      street: '',
+      number: 0,
+      complement: '',
+      district: '',
+      city: '',
+      uf: '',
+      credit: '',
+      debit: '',
+      money: '',
+    },
+    coffeeList: [],
+    totalItemsPrice: 0,
+    totalPrice: 0,
+    deliveryFee: 0,
+  })
 
+  const { getValues, setValue } = useFormContext<coffeeFromData>()
+  const {
+    chosenCoffees,
+    removeCoffee,
+    updateCoffee,
+    setLocaleHeader,
+    getAllOrderInfo,
+  } = useContext(CoffeeContext)
+
+  const deliveryFee = 3.5
   const itemsPrice: IItemsPrice[] = []
+  let datas: coffeeFromData
+  // const [datas, setDatas] = useState<coffeeFromData>({
+  //   cep: 0,
+  //   street: '',
+  //   number: 0,
+  //   complement: '',
+  //   district: '',
+  //   city: '',
+  //   uf: '',
+  //   credit: '',
+  //   debit: '',
+  //   money: '',
+  // })
+
   useEffect(() => {
     chosenCoffees.forEach((coffee) => {
       itemsPrice.push({
@@ -35,11 +78,23 @@ export const ChosenCoffeeComponent = ({
     setTotalItemsPrice(
       itemsPrice.reduce((acc, item) => acc + item.coffeeTotalPrice, 0),
     )
+    handleAllOrderInfo(datas)
   }, [chosenCoffees])
 
-  const { getValues, setValue } = useFormContext()
+  function handleAllOrderInfo(address: coffeeFromData) {
+    setOrderFinished({
+      addressInfo: address,
+      coffeeList: chosenCoffees,
+      totalItemsPrice,
+      totalPrice: totalItemsPrice + deliveryFee,
+      deliveryFee,
+    })
+    console.log(
+      '🚀 ~ file: index.tsx ~ line 111 ~ handleCoffeeSubmit ~ orderFinished',
+      orderFinished,
+    )
+  }
 
-  console.log(itemsPrice)
   function handleCoffeeSubmit() {
     inputRadioIsChecked === 'credit'
       ? setValue('credit', 'true')
@@ -51,12 +106,14 @@ export const ChosenCoffeeComponent = ({
       ? setValue('money', 'true')
       : setValue('money', 'false')
 
-    const datas = getValues()
-
+    // setDatas(getValues())
+    datas = getValues()
     setLocaleHeader({
       city: datas.city,
       uf: datas.uf,
     })
+    handleAllOrderInfo(datas)
+    getAllOrderInfo(orderFinished)
   }
 
   return (
@@ -103,20 +160,26 @@ export const ChosenCoffeeComponent = ({
               <span>Total de itens</span> <span>R${totalItemsPrice}</span>
             </div>
             <div>
-              <span>Entrega</span> <span>R${totalItemsPrice ? 3.5 : 0.0}</span>
+              <span>Entrega</span>{' '}
+              <span>R${totalItemsPrice ? deliveryFee : 0.0}</span>
             </div>
             <div>
               <p> Total </p>
-              <p>R${totalItemsPrice ? totalItemsPrice + 3.5 : 0.0}</p>
+              <p>R${totalItemsPrice ? totalItemsPrice + deliveryFee : 0.0}</p>
             </div>
           </div>
 
-          <input
-            type="button"
-            onClick={() => handleCoffeeSubmit()}
+          <button
+            type="submit"
+            onClick={(e) => {
+              e.preventDefault()
+              handleCoffeeSubmit()
+            }}
             className="confirm-btn"
-            value="Confirmar pedido"
-          />
+            // disabled={}
+          >
+            Confirmar pedido
+          </button>
         </ChosenCoffees>
       </BackgroundCoffeeSelected>
     </div>

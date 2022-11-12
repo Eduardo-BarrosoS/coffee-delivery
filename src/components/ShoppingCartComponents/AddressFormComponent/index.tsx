@@ -6,20 +6,20 @@ import { AddressContainer, Background, Requirements } from './style'
 // import { CoffeeContext } from '../../../contexts/CoffeesContext'
 
 export const AddressFormComponent = () => {
-  const { register } = useFormContext()
-  //   function handleInformationByCEP(cep: number) {
-  //     if (cep.toString().length === 8) {
-  //       fetch(`https://viacep.com.br/ws/${cep}/json/`)
-  //         .then((res) => res.json())
-  //         .then((data) => {
-  //           setValue('street', data.logradouro)
-  //           setValue('city', data.localidade)
-  //           setValue('district', data.bairro)
-  //           setValue('uf', data.uf)
-  //           setFocus('number')
-  //         })
-  //     }
-  //   }
+  const { register, setValue, setFocus } = useFormContext()
+  function handleInformationByCEP(cep: string) {
+    if (cep.toString().length === 8) {
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((res) => res.json())
+        .then((data) => {
+          setValue('street', data.logradouro)
+          setValue('city', data.localidade)
+          setValue('district', data.bairro)
+          setValue('uf', data.uf)
+          setFocus('number')
+        })
+    }
+  }
 
   return (
     <Background className="address">
@@ -34,10 +34,11 @@ export const AddressFormComponent = () => {
 
         <AddressContainer>
           <input
-            type="text"
+            type="number"
             placeholder="CEP"
             className="CEP"
             {...register('cep')}
+            onBlur={(e) => handleInformationByCEP(e.target.value)}
           />
           <input
             type="text"
@@ -51,6 +52,7 @@ export const AddressFormComponent = () => {
               placeholder="Número"
               {...register('number')}
               className="number"
+              onBlur={() => setFocus('complement')}
             />
             <input
               type="text"
